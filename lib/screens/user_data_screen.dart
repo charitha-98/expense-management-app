@@ -174,16 +174,13 @@ class _UserDataScreenState extends State<UserDataScreen> {
                             );
 
                             //navigate to the main page
-                            if (context.mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return MainScreen();
-                                  },
-                                ),
-                              );
-                            }
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainScreen(),
+                              ),
+                            );
                           }
                         },
                         child: CustomButton(

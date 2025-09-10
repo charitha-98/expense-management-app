@@ -30,4 +30,25 @@ class UserService {
       error.toString();
     }
   }
+  // method to check user name saved of not
+
+  static Future<bool> checkUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    String? userName = preferences.getString('username');
+    return userName != null;
+  }
+
+  //get the use name and email
+
+  static Future<Map<String, String>> getUserData() async {
+    //create a instence for shared preferences
+
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    String? userName = preferences.getString("username");
+    String? email = preferences.getString("email");
+
+    return {"username": userName!, "email": email!};
+  }
 }

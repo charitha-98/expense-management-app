@@ -1,3 +1,4 @@
+import 'package:expenz/screens/main_screen.dart';
 import 'package:expenz/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,11 +14,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Expenz",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: "Inter"),
-      home: OnboardingScreen(),
+    return FutureBuilder(
+      future: _checkUsername(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        } else {
+          bool hasUsername = snapshot.data ?? false;
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(fontFamily: "Inter"),
+            home: hasUsername ? const MainScreen() : const OnboardingScreen(),
+          );
+        }
+      },
     );
+  }
+
+  Future<bool> _checkUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? username = prefs.getString('username');
+    return username != null;
   }
 }
