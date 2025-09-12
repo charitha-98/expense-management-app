@@ -36,4 +36,32 @@ class Expences {
     required this.time,
     required this.description,
   });
+
+  //convert theexpence object to a json object
+
+  Map<String, dynamic> toJSON() {
+    return {
+      "id": id,
+      "title": title,
+      "amount": amount,
+      "category": category.index,
+      "date": date.toIso8601String(),
+      "time": time.toIso8601String(),
+      "description": description,
+    };
+  }
+
+  //convert the jason object to a dart object
+
+  factory Expences.fromJSON(Map<String, dynamic> json) {
+    return Expences(
+      id: json["id"],
+      title: json["title"],
+      amount: json["amount"],
+      category: ExpencesCategory.values[json["category"]],
+      date: DateTime.parse(json["date"]),
+      time: DateTime.parse(json["time"]),
+      description: json["description"],
+    );
+  }
 }
