@@ -62,4 +62,47 @@ class IncomeService {
     }
     return loadedIncomes;
   }
+
+  Future<void> deleteIncome(int id, BuildContext context) async {
+    try {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+
+      List<String>? exisitingIncomes = preferences.getStringList(_incomeKey);
+
+      List<Income> exisitingIncomeObjects = [];
+
+      if (exisitingIncomes != null) {
+        exisitingIncomeObjects = exisitingIncomes
+            .map((e) => Income.fromJSON(json.decode(e)))
+            .toList();
+      }
+
+      exisitingIncomeObjects.removeWhere((income) => income.id == id);
+
+      List<String> updatedIncomes = exisitingIncomeObjects
+          .map((e) => json.encode(e.toJSON()))
+          .toList();
+
+      await preferences.setStringList(_incomeKey, updatedIncomes);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Income deleted succesfully!"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (error) {
+      print(error.toString());
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Income deleted error!"),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
 }

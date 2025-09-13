@@ -1,18 +1,19 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:expenz/constent/colors.dart';
-import 'package:expenz/models/expences_model.dart';
+
+import 'package:expenz/models/income_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ExpensesCard extends StatelessWidget {
+class IncomeCard extends StatelessWidget {
   final String title;
   final DateTime date;
   final double amount;
-  final ExpencesCategory category;
+  final IncomeCategory category;
   final String description;
   final DateTime time;
-  const ExpensesCard({
+  const IncomeCard({
     super.key,
     required this.title,
     required this.date,
@@ -45,17 +46,17 @@ class ExpensesCard extends StatelessWidget {
             height: 50,
             width: 50,
             decoration: BoxDecoration(
-              color: expenseCategoryColors[category]!.withOpacity(0.1),
+              color: incomeCategoryColor[category]!.withOpacity(0.1),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Image.asset(expenceCategoryImages[category]!, width: 20),
+            child: Image.asset(incomeCategoryImages[category]!, width: 20),
           ),
           SizedBox(width: 20),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                width: 50,
+                width: 80,
                 child: Text(
                   title,
                   style: TextStyle(
@@ -63,12 +64,10 @@ class ExpensesCard extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     color: kBlack,
                   ),
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               SizedBox(
-                width: 50,
-
+                width: 80,
                 child: Text(
                   description,
                   style: TextStyle(
@@ -86,11 +85,11 @@ class ExpensesCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "-\$${amount.toStringAsFixed(2)}",
+                "+\$${amount.toStringAsFixed(2)}",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: kRed,
+                  color: kGreen,
                 ),
               ),
               Text(

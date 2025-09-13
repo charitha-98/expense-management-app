@@ -58,6 +58,13 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void removeIncome(Income income) {
+    IncomeService().deleteIncome(income.id, context);
+    setState(() {
+      incomeList.remove(income);
+    });
+  }
+
   @override
   void initState() {
     setState(() {
@@ -72,7 +79,9 @@ class _MainScreenState extends State<MainScreen> {
     final List<Widget> pages = [
       TransactionPage(
         expensesList: expenseList,
+        incomeList: incomeList,
         onDissmissedExpense: removeExpenses,
+        onDissmissedIncome: removeIncome,
       ),
       HomePage(),
 

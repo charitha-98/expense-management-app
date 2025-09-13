@@ -1,16 +1,22 @@
 import 'package:expenz/constent/colors.dart';
 import 'package:expenz/constent/constent.dart';
 import 'package:expenz/models/expences_model.dart';
+import 'package:expenz/models/income_model.dart';
 import 'package:expenz/widgets/expenses_card.dart';
+import 'package:expenz/widgets/income_card.dart';
 
 import 'package:flutter/material.dart';
 
 class TransactionPage extends StatefulWidget {
   final List<Expences> expensesList;
+  final List<Income> incomeList;
+  final void Function(Income) onDissmissedIncome;
   final void Function(Expences) onDissmissedExpense;
   const TransactionPage({
     super.key,
     required this.expensesList,
+    required this.incomeList,
+    required this.onDissmissedIncome,
     required this.onDissmissedExpense,
   });
 
@@ -74,6 +80,52 @@ class _TransactionPageState extends State<TransactionPage> {
                               category: expense.category,
                               description: expense.description,
                               time: expense.time,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Text(
+                "Income",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: kBlack,
+                ),
+              ),
+              SizedBox(height: 10),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.22,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: widget.incomeList.length,
+                        itemBuilder: (context, index) {
+                          final income = widget.incomeList[index];
+
+                          return Dismissible(
+                            key: ValueKey(income),
+                            direction: DismissDirection.startToEnd,
+                            onDismissed: (direction) {
+                              setState(() {
+                                widget.onDissmissedIncome(income);
+                              });
+                            },
+                            child: IncomeCard(
+                              title: income.title,
+                              date: income.date,
+                              amount: income.amount,
+                              category: income.category,
+                              description: income.description,
+                              time: income.time,
                             ),
                           );
                         },
