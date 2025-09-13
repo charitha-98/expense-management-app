@@ -394,7 +394,7 @@ class _AddNewPageState extends State<AddNewPage> {
                           SizedBox(height: 10),
                           GestureDetector(
                             onTap: () async {
-                              if (_amountController == 0) {
+                              if (_selectedMethod == 0) {
                                 //save the expence of the income data
                                 List<Expences> loadedExpences =
                                     await ExpenceService().loadExpenses();
@@ -430,6 +430,12 @@ class _AddNewPageState extends State<AddNewPage> {
                                   time: _selectedTime,
                                   description: _descriptionController.text,
                                 );
+
+                                widget.addIncomes(income);
+
+                                _titleController.clear();
+                                _amountController.clear();
+                                _descriptionController.clear();
                               }
                             },
                             child: CustomButton(
